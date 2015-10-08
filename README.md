@@ -21,7 +21,7 @@ I'm currently trying to isolate as much as I can so I can give accurate instruct
 * Next, checkout this project ( git clone https://github.com/valsteen/ableton-live-webapi ) anywhere.
 * Inside the checkout, install local dependencies with ```npm install```. Some other global dependencies are also necessary, run  ```npm install -g forever jspm```
 * npm installed the server dependencies. Now, type ```jspm install``` to fetch the frontend dependencies.
-* `gulp`, the build tool, is necessary at global level, install with npm install -g gulp
+* `gulp`, the build tool, is necessary at global level, install with ```npm install -g gulp```
 * finally, start the development server with ```gulp watch &  forever -w --watchDirectory=node_app/ node_app/server.js &```. It should end up with:
 
 ```
