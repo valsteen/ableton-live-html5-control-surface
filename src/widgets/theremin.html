@@ -1,0 +1,29 @@
+<template>
+<style>
+    :host {
+        display: block;
+        float: left;
+        position: relative;
+        width: 50px;
+        height: 50px;
+        margin-top: 200px;
+        margin-left: 400px;
+    }
+    canvas.control-shape {
+        position: absolute;
+        width: ${widgetWidth}px;
+        height: ${widgetHeight}px;
+    }
+
+    canvas.bounds {
+        position: absolute;
+        top: ${(widgetWidth-width)/2}px;
+        left: ${(widgetHeight-height)/2}px;
+        width: ${width}px;
+        height: ${height}px;
+        display: none;
+    }
+</style>
+<canvas class="bounds"></canvas>
+<canvas class="control-shape"></canvas>
+</template>

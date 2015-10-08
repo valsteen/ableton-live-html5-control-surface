@@ -1,0 +1,12 @@
+{
+    "name": "Control Surface",
+    "icons": [{
+        "src": "launcher-icon-0-75x.png",
+        "sizes": "70x70",
+        "type": "image/png",
+        "density": "1"
+    } ],
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "landscape"
+}

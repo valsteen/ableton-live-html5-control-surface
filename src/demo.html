@@ -1,0 +1,37 @@
+<template>
+    <section class="au-animate">
+        <song path="document" session-record.two-way="sessionRecord.active"></song>
+        <live-track path="document.tracks.0" live-track.ref="bass"></live-track>
+        <live-track path="document.tracks.1" live-track.ref="drum"></live-track>
+        <clip-slot path="document.tracks.0.clip_slots.0" play.two-way="playbass.active" clip-slot.ref="bassclipslot"></clip-slot>
+        <clip-slot path="document.tracks.1.clip_slots.0" play.two-way="playdrum.active" clip-slot.ref="drumclipslot"></clip-slot>
+        <parameter path="document.tracks.0.devices.0.parameters.1" parameter.ref="cutoff"></parameter>
+        <parameter path="document.tracks.0.devices.0.parameters.2" parameter.ref="gate"></parameter>
+        <parameter path="document.tracks.0.devices.0.parameters.3" parameter.ref="pitch" value.two-way="pitchControls.value"></parameter>
+
+        <automationeditor quantization.bind="0.125" clipslot.one-way="bassclipslot.clipslot"
+                          parameter.bind="cutoff.parameter"
+                          class="x-0 y-0 width-6 height-6"></automationeditor>
+        <automationeditor quantization.bind="0.125" clipslot.one-way="bassclipslot.clipslot"
+                          parameter.bind="gate.parameter" visible.bind="choice.selected === 'Gate'"
+                          class="x-0 y-6 width-6 height-6"></automationeditor>
+        <clipeditor quantization.one-way="0.25" clipslot.one-way="bassclipslot.clipslot"
+                    class="x-6 y-0 width-6 height-6" mono.bind="true" scale.bind="scale.scale"></clipeditor>
+        <clipeditor quantization.one-way="0.25" clipslot.one-way="drumclipslot.clipslot" visible.bind="choice.selected === 'Drum clip'"
+                    class="x-0 y-6 width-6 height-6"></clipeditor>
+        <radio-controls values.bind="[-12, -7, -5, -4, -3, 0, 3, 4, 5, 7, 12]" range.bind="24" radio-controls.ref="pitchControls"></radio-controls>
+        <radio controls.one-way="pitchControls.controls" gesturecontrol.one-way="pitch.parameter" hold.bind="true"
+               columns.bind="11" rows.bind="1" class="x-6 y-6 width-6 height-1"></radio>
+        <switch label="Drums" pushbutton.bind="false" switch.ref="playdrum" class="x-6 y-7"></switch>
+        <switch label="Bass" pushbutton.bind="false" switch.ref="playbass" class="x-6 y-8"></switch>
+        <switch label="Record" pushbutton.bind="false" switch.ref="sessionRecord" class="x-6 y-9"></switch>
+        <pan-select choices.one-time="['Gate','Drum clip']" side="vertical" previewcount.bind="10"
+                    pan-select.ref="choice" selected="Drum clip" class="x-6 y-10"></pan-select>
+        <scale mode.bind="mode.selected" rootnote.bind="rootnote.selected" scale.ref="scale"></scale>
+        <pan-select choices.one-way="modes" side="vertical" previewcount.bind="10" pan-select.ref="mode" selected="Minor"
+                    class="x-7 y-7"></pan-select>
+        <pan-select choices.one-time="notes" side="vertical" previewcount.bind="10" pan-select.ref="rootnote" selected="C"
+                    class="x-7 y-8"></pan-select>
+
+    </section>
+</template>

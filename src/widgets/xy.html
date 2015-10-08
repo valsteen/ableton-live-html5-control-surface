@@ -1,0 +1,26 @@
+<template>
+<style>
+    :host {
+        display: block;
+        position: absolute;
+        z-index: 1;
+    }
+    canvas.control-shape {
+        position: absolute;
+        width: ${widgetWidth}px;
+        height: ${widgetHeight}px;
+    }
+
+    canvas.bounds, canvas.guide {
+        position: absolute;
+        top: ${(widgetWidth-width)/2}px;
+        left: ${(widgetHeight-height)/2}px;
+        width: ${width}px;
+        height: ${height}px;
+        display: none;
+    }
+</style>
+<canvas class="bounds"></canvas>
+<canvas class="guide"></canvas>
+<canvas class="control-shape"></canvas>
+</template>

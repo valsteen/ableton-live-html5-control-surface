@@ -1,0 +1,12 @@
+<template>
+    <style>
+        :host {
+            display: block;
+            box-sizing: border-box;
+            position: absolute;
+        }
+    </style>
+    <div repeat.for="scale of scales">
+        ${scale.name}
+    </div>
+</template>

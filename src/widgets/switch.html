@@ -1,0 +1,32 @@
+<template>
+    <style>
+        :host {
+            display: block;
+            width: 8%;
+            height: 8%;
+            box-sizing: border-box;
+            position: absolute;
+        }
+
+        div {
+            border: 1px solid #000;
+            width: 100%;
+            height: 100%;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 100%;
+            display: table;
+            box-sizing: border-box;
+        }
+
+        div span {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        div.active {
+            background-color: #999;
+        }
+    </style>
+    <div><span>${label}</span></div>
+</template>

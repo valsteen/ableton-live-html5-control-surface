@@ -1,0 +1,98 @@
+<template>
+<style>
+:host {
+    display: block;
+    width: 8%;
+    height: 8%;
+    box-sizing: border-box;
+    position: absolute;
+}
+.main {
+    width: ${width}px;
+    height: ${height}px;
+    position: relative;
+    white-space: nowrap;
+}
+
+.choice, .choice-content, .selected, .background {
+    width: ${width-2}px;
+    height: ${height-2}px;
+
+    text-align: center;
+    line-height: ${height}px;
+    vertical-align: middle;
+}
+
+.background {
+    position: absolute;
+    z-index: 5;
+    background-color: #EEE;
+}
+
+.choice, .selected {
+    border: 1px solid #999;
+}
+
+.choice, .choice-content {
+    float: ${sideIsVertical ? "none" : "left"};
+    margin-${sideIsVertical ? "bottom" : "right"}: -1px;
+}
+
+.choice {
+    position: relative;
+    overflow: hidden;
+}
+
+.selected {
+    background: #fff;
+    overflow: hidden;
+}
+
+.selected.nochoice {
+    background-color: #EEE;
+}
+
+.choice-content {
+    position: relative;
+    z-index: 20;
+}
+
+.choices {
+    position: absolute;
+    z-index: 30;
+    top: ${sideIsVertical ? (-previewcount*(height-1)) : (sideIsBottom ? height-1 : (sideIsTop ? -(height-1) : 0 ))}px;
+    left: ${sideIsHorizontal ? (-previewcount*(width-1)) : (sideIsLeft ? (-width+1) : (sideIsRight ? (width-1) : 0))}px;
+    ${sideIsVertical ? "height" : "width"}: ${(previewcount*2+1)*(sideIsVertical ? (height-1) : width)+1}px;
+    ${sideIsHorizontal ? "height" : "width"}: ${sideIsHorizontal ? height : width}px;
+    overflow: hidden;
+}
+.scroll {
+    position: absolute;
+    transition-duration: 0.1s;
+}
+.highlight {
+    position: absolute;
+    margin-top: 1px;
+    margin-left: 1px;
+
+    width: ${width-2}px;
+    height: ${height-2}px;
+    ${sideIsVertical ? "top" : "left"}: ${(previewcount)*(sideIsVertical ? (height-1) : (width-1))}px;
+    z-index: 10;
+    background-color: #fff;
+}
+</style>
+<div class="main">
+    <div class="selected ${(!choices || choices.length <= 1) ? 'nochoice' : ''}">${selected}</div>
+    <div show.bind="inUse" class="choices">
+        <div class="scroll">
+            <div class="choice" repeat.for="choice of choices">
+                <div class="background"></div>
+                <div class="choice-content">${choice}</div>
+            </div>
+        </div>
+
+        <div class="highlight"></div>
+    </div>
+</div>
+</template>

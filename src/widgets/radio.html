@@ -1,0 +1,36 @@
+<template>
+    <style>
+        :host {
+            display: block;
+            box-sizing: border-box;
+            position: absolute;
+        }
+
+        div {
+            border: 1px solid #000;
+            height: 100%;
+            vertical-align: middle;
+            text-align: center;
+            display: table;
+            box-sizing: border-box;
+            margin-right: -1px;
+            margin-bottom: -1px;
+            float: left;
+        }
+        div span {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        div.active {
+            background-color: #999;
+        }
+        /*css="width: ${100/columns}%"*/
+    </style>
+
+    <div style.bind="$parent.buttonstyle" class="${control.active ? 'active' : ''}" repeat.for="control of controls">
+        <span>${control}</span>
+    </div>
+
+
+</template>

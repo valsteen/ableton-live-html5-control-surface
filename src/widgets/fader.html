@@ -1,0 +1,40 @@
+<template>
+    <style>
+        :host {
+            display: block;
+            height: 195px;
+            width: 50px;
+            position: absolute;
+        }
+
+        .line {
+            border: 1px solid #333;
+            height: 170px;
+            top: 0;
+            left: 10px;
+            width: 30px;
+            position: absolute;
+        }
+
+        .widget {
+            background-color: #666;
+            height: 20px;
+            top: -10px;
+            width: 50px;
+            position: absolute;
+        }
+
+        span {
+            position: absolute;
+            bottom: 0px;
+            text-align: center;
+            width: 30px;
+            left: 10px;
+            border: 1px solid #333;
+        }
+    </style>
+
+    <div class="line"></div>
+    <div class="widget"></div>
+    <span>${value}</span>
+</template>
