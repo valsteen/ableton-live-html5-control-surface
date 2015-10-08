@@ -130,11 +130,12 @@ midi.input.on('message', function (deltaTime, message, name) {
 
 exports = module.exports = app;
 
-// https support
-var fs = require('fs');
+// https support -- useful if you want to plugin a midi device and receive sysex messages.
+/*var fs = require('fs');
 var privateKey = fs.readFileSync('/private/etc/apache2/server.key', 'utf8');
 var certificate = fs.readFileSync('/private/etc/apache2/server.crt', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 var https = require('https');
 var httpsServer = https.createServer(credentials, app);
 httpsServer.listen(4430);
+*/
