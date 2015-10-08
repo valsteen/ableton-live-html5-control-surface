@@ -13,7 +13,7 @@ This is the first public release of this project, in a pre-alpha stage. This ear
 
 In its current state, setting up the application requires to be familiar with installing development tools on Mac OS X.
 
-I'm currently trying to isolate as much as I can so I can give accurate instructions on how to install it from scratch. If you're stuck somewhere, find instructions unclear, or even found a solution to a problem not mentioned here please help me complete this guide by opening a ticket. And by all means don't hesitate to fork the project and send pull requests.
+I'm currently trying to isolate as much as I can so I can give accurate instructions on how to install it from scratch. If you're stuck somewhere, find instructions unclear, or even found a solution to a problem not mentioned here please help me complete this guide by opening a ticket or pinging me on twitter ( @\_v1nc3nt\_ ). And by all means don't hesitate to fork the project and send pull requests.
 
 ## Server
 
@@ -69,4 +69,4 @@ You can check the source in ```src/demo.html``` and guess how parameters and wid
 
 ## Wrapup
 
-I just did those step on a fresh ```brew``` install, if you succeeded please ping me on twitter ( @_v1nc3nt_ ), I'd like to know if I didn't mess up too much. If you're stuck open a ticket or contact me on twitter. Don't hesitate, I didn't do this project just for myself.
+I just did those step on a fresh ```brew``` install, if you succeeded please ping me on twitter ( @\_v1nc3nt\_ ), I'd like to know if I didn't mess up too much. If you're stuck open a ticket or contact me on twitter. Don't hesitate, I didn't do this project just for myself.
