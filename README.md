@@ -68,7 +68,7 @@ You're almost ready to test the control surface. The app is configurable but the
 
 Indeed to unleash all the potential of the touch interface you should open it with chrome on an android tablet. Due to restrictions on iOS, as WebRTC is not available, the application won't run on an iPad. Maybe I'll add websockets fallback in the future but it will lead to network slowdowns due to nagle's algorithm.
 
-You can check the source in ```src/demo.html``` and guess how parameters and widgets are interacting with ableton. What exactly can be done will be documented soon.
+You can check the source in ```src/demo.html``` and guess how parameters and widgets are interacting with Ableton Live. What exactly can be done will be documented soon.
 
 ## Wrapup
 
