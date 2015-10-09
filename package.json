@@ -95,6 +95,7 @@
     "epipebomb": "^0.1.1",
     "event-stream": "^3.3.1",
     "express": "^4.13.3",
+    "forever": "^0.15.1",
     "midi": "^0.9.4",
     "multer": "^1.0.3",
     "node-osc": "^1.1.0",

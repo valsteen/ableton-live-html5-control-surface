@@ -8,6 +8,7 @@
         <parameter path="document.tracks.0.devices.0.parameters.1" parameter.ref="cutoff"></parameter>
         <parameter path="document.tracks.0.devices.0.parameters.2" parameter.ref="gate"></parameter>
         <parameter path="document.tracks.0.devices.0.parameters.3" parameter.ref="pitch" value.two-way="pitchControls.value"></parameter>
+        <parameter path="document.tracks.0.devices.0.chains.0.devices.2.parameters.115" value.two-way="hipassKnob.value" in-use.bind="hipassKnob.inUse" parameter.ref="hipass"></parameter>
 
         <automationeditor quantization.bind="0.125" clipslot.one-way="bassclipslot.clipslot"
                           parameter.bind="cutoff.parameter"
@@ -25,6 +26,7 @@
         <switch label="Drums" pushbutton.bind="false" switch.ref="playdrum" class="x-6 y-7"></switch>
         <switch label="Bass" pushbutton.bind="false" switch.ref="playbass" class="x-6 y-8"></switch>
         <switch label="Record" pushbutton.bind="false" switch.ref="sessionRecord" class="x-6 y-9"></switch>
+        <knob knob.ref="hipassKnob" class="width-1 height-1 x-8 y-9"></knob>
         <pan-select choices.one-time="['Gate','Drum clip']" side="vertical" previewcount.bind="10"
                     pan-select.ref="choice" selected="Drum clip" class="x-6 y-10"></pan-select>
         <scale mode.bind="mode.selected" rootnote.bind="rootnote.selected" scale.ref="scale"></scale>
