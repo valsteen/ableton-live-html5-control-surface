@@ -17,6 +17,7 @@ System.config({
 
 System.config({
   "map": {
+    "MaxArt2501/object-observe": "github:MaxArt2501/object-observe@0.2.4",
     "aurelia-animator-css": "github:aurelia/animator-css@0.14.1",
     "aurelia-binding": "github:aurelia/binding@0.8.6",
     "aurelia-bootstrapper": "github:aurelia/bootstrapper@0.15.0",
