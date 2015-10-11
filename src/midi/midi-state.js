@@ -1,7 +1,7 @@
 /* jshint -W097 */
 "use strict";
 
-import { sendMessage } from 'webrtc/webrtc';
+import { iomidi } from 'io';
 
 export var NOTES = [
     {'note': 'C', 'sharp': false},
@@ -82,7 +82,7 @@ class ChannelClass {
     }
 
     stopNotes() {
-        sendMessage('midi', [175 + this.channel, 123, 0]);
+        iomidi.emit('message', [175 + this.channel, 123, 0]);
         for (var midiState of this.activeMidiStates.values()) {
             midiState.deactivate("channel");
         }
@@ -146,7 +146,7 @@ class MidiStateClass {
                 this.lastModifier = modifier;
             }
         }
-        sendMessage('midi', this.midiMessage);
+        iomidi.emit('message', this.midiMessage);
     }
 
     deactivate(modifier) {
@@ -162,16 +162,15 @@ class MidiStateClass {
                 this.lastModifier = modifier;
             }
         }
-        sendMessage('midi', this.midiMessage);
+        iomidi.emit('message', this.midiMessage);
     }
 
     pitchbend(value) {
-        sendMessage('midi', [223 + this.channel, value[0], value[1]]);
+        iomidi.emit('message', [223 + this.channel, value[0], value[1]]);
     }
 
     aftertouch(value) {
-        //sendMessage('midi', [159 + this.channel, this.key, value]); // polyphonic after touch is not supported, maybe we can trick it ...
-        sendMessage('midi', [207 + this.channel, value, 0]);
+        iomidi.emit('message', [207 + this.channel, value, 0]);
     }
 
     get value() {

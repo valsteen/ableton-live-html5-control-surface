@@ -1,10 +1,9 @@
-/* jshint -W097 */
+/* jshint -W097,browser: true, devel: true */
 "use strict";
 
-import { subscribe as subscribeRTC, sendMessage, onDisconnected } from 'webrtc/webrtc';
 import { Channel } from 'midi/midi-state';
-
 import Promise from 'bluebird';
+import { iorequest, ioevents, iomidi } from 'io';
 
 export class LiveParameter { // should inherit from LiveObject and used only for "Parameters"
     constructor(liveObject) {
@@ -467,36 +466,11 @@ function listen(path, cb) {
     });
 }
 
-function distribute(method, data) {
-    if (method === "reply") {
-
-        if ("messageId" in data && data.messageId === null) {
-            // it's a batch
-            for (let i = 0; i < data.result.length; ++i) {
-                distribute("reply", data.result[i]);
-            }
-            return;
-        }
-
-        if (mailbox[data.messageId]) {
-            mailbox[data.messageId].resolve(data);
-        }
-        delete mailbox[data.messageId];
-        return;
+function distribute(data) {
+    if (mailbox[data.messageId]) {
+        mailbox[data.messageId].resolve(data);
     }
-
-    if (subscriptions[method]) { // only applies to midi
-        for (let cb of subscriptions[method]) {
-            cb(data);
-        }
-    }
-    if (method === "update") {
-        if (listeners[data.id] && listeners[data.id][data.attribute]) {
-            for (let listener of listeners[data.id][data.attribute]) {
-                listener(data.value);
-            }
-        }
-    }
+    delete mailbox[data.messageId];
 }
 
 function expect(id) {
@@ -514,15 +488,6 @@ function expect(id) {
     });
 }
 
-onDisconnected(() => {
-    setTimeout(() => {
-        for (let deferred of Object.values(mailbox)) {
-            deferred.reject("disconnected");
-        }
-        mailbox = {};
-    }, 100);
-});
-
 let batch = false;
 let currentBatch;
 export function startBatch() {
@@ -532,9 +497,13 @@ export function startBatch() {
 export function endBatch() {
     batch = false;
     if (currentBatch.length === 1) {
-        sendMessage(currentBatch[0][0], currentBatch[0][1]);
+        iorequest.emit("message", currentBatch[0]);
     } else {
-        sendMessage("BATCH", {commands: currentBatch});
+        request("BATCH", {'commands': currentBatch}).then((data) => {
+            for (let i = 0; i < data.length; ++i) {
+                distribute(data[i]);
+            }
+        });
     }
 }
 
@@ -618,7 +587,7 @@ function guid() {
         s4() + '-' + s4() + s4() + s4();
 }
 
-function request(method, parameters) {
+function request(method, data) {
     let uniqueId = guid();
     let promise = expect(uniqueId).then((message) => {
         if ("error" in message) {
@@ -634,16 +603,17 @@ function request(method, parameters) {
             return message.result;
         }
     }).catch((error) => {
-        console.error(method, parameters, error);
+        console.error(data, error);
         throw error;
     });
 
-    parameters.messageId = uniqueId;
+    data.messageId = uniqueId;
+    data.method = method;
 
     if (batch) {
-        currentBatch.push([method, parameters]);
+        currentBatch.push(data);
     } else {
-        sendMessage(method, parameters);
+        iorequest.emit('message', data);
     }
 
     return promise;
@@ -663,7 +633,25 @@ function call(path) {
     return request("CALL", {'path': path, parameters: parameters});
 }
 
-subscribeRTC(distribute);
+
+ioevents.on('message', function (data) {
+    data = JSON.parse(data);
+    if (listeners[data.id] && listeners[data.id][data.attribute]) {
+        for (let listener of listeners[data.id][data.attribute]) {
+            listener(data.value);
+        }
+    }
+});
+
+iomidi.on('message', function (data) {
+    if (subscriptions.midi) {
+        for (let cb of subscriptions.midi) {
+            cb(data);
+        }
+    }
+});
+
+iorequest.on('message', distribute);
 
 var liveExports = {
     request: request,

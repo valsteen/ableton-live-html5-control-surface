@@ -1,9 +1,0 @@
-{
-  "name": "com.djcrontab.webrtcbridge",
-  "description": "WebRTCBridge",
-  "path": "HOST_DIR/host.js",
-  "type": "stdio",
-  "allowed_origins": [
-    "chrome-extension://bmfbcejdknlknpncfpeloejonjoledha/"
-  ]
-}

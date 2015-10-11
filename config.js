@@ -51,6 +51,7 @@ System.config({
     "hammer": "github:hammerjs/hammer.js@2.0.4",
     "jquery": "github:components/jquery@2.1.4",
     "q": "npm:q@1.4.1",
+    "socket.io-client": "github:socketio/socket.io-client@1.3.7",
     "github:aurelia/animator-css@0.14.1": {
       "aurelia-metadata": "github:aurelia/metadata@0.7.3",
       "aurelia-templating": "github:aurelia/templating@0.13.16"

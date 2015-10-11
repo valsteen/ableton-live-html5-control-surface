@@ -63,9 +63,4 @@ var MidiManager = {
 };
 MidiManager.setUp();
 
-function request() {
-    MidiManager.sendMidi([240, 247]);
-}
-
-MidiManager.request = request;
 module.exports = MidiManager;

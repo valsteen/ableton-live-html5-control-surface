@@ -37,9 +37,10 @@ export default {
                             ((name) => {
                                 input.value.onmidimessage = (message) => dispatch(message, name);
                             })(input.value.name + ":" + input.value.id);
+                            dispatch({data:[240, 247]}, input.value.name + ":" + input.value.id); // trick to let the server see this device
                         } else {
                             // we are on the same computer as the server
-                            this.isLocal = true ;
+                            this.isLocal = true;
                         }
                         saved_inputs.push(input);
                     }
