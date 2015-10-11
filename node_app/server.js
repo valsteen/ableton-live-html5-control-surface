@@ -54,12 +54,19 @@ var iomidi = io.of("/midi");
 iomidi.on('connection', function (socket) {
     socket.on('message', function (data) {
         socket.send("ack"); // this trick should prevent nagle's algorithm. Some serious profiling is needed to be sure http://stackoverflow.com/a/13406438/34871
-        if (!data.notes) { // tried to send filler packets to force flushing, so data.notes will be not present for them
+        if (!data.notes && data.constructor !== Array) { // tried to send filler packets to force flushing, so data.notes will be not present for them
             return ;
         }
+
+        var notes;
+        if (data.constructor === Array) {
+            notes = data;
+        } else {
+            notes = data.notes;
+        }
         // split in chunks, as node-midi's buffer is limited
-        for (var i = 0; i < data.notes.length; i += 100) {
-            midi.sendMidi(data.notes.slice(i, i + 100), data.name);
+        for (var i = 0; i < notes.length; i += 100) {
+            midi.sendMidi(notes.slice(i, i + 100), data.name);
         }
     });
 });
