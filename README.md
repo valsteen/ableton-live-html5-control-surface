@@ -47,14 +47,9 @@ I'm currently trying to isolate as much as I can so I can give accurate instruct
 
 In this case, run ```gulp watch &``` again. There is a bug somewhere which just cleans up the project and builds nothing.
 
-## WebRTC Bridge chrome extension
+## ~~WebRTC Bridge chrome extension~~
 
-As explained [here](http://www.djcrontab.com/2015/09/building-html5-control-surface-part2.html) the chrome extension comes as a workaround because the webrtc bindings for node are not stable for the purpose.
-
-* install the native part with ./chrome-extension/host/register.sh
-* this will create that file ```~/Library/Application\ Support/Google/Chrome/NativeMessagingHosts/com.djcrontab.webrtcbridge.json```
-* next, open chrome and go to ```chrome://extensions/```. Check the "developer mode" then "load unpacked extension". You need to choose the ```app``` directory found in ```chrome-extension/```
-* Keep an eye on "background page". It may become "background page (inactive)" in which case it doesn't run, click on it if it's the case. Hopefully I'll fix that bug at some point.
+I dropped WebRTC which adds too much complexity and totally prevents the app to work on iOS. Some work is still needed to ensure safari compatibility, though.
 
 ## Control surface script
 
@@ -66,7 +61,7 @@ After restarting Live, a WebAPI control surface should be available, and since t
 
 You're almost ready to test the control surface. The app is configurable but there is one example matching a demo project: you can load in Ableton Live the included project which is found in ```demo1 Project.zip```. After the project is loaded in ableton you can finally open http://localhost:9000 ( chrome only ). It's just some silly drums with a bassline but it shows some possibilities.
 
-Indeed to unleash all the potential of the touch interface you should open it with chrome on an android tablet. Due to restrictions on iOS, as WebRTC is not available, the application won't run on an iPad. Maybe I'll add websockets fallback in the future but it will lead to network slowdowns due to nagle's algorithm.
+Indeed to unleash all the potential of the touch interface you should open it with chrome on a tablet. I could only test it on android, I don't know if it'll work properly on iOS. Safari is not compatible but chrome on iOS might work, I cannot test for now.
 
 You can check the source in ```src/demo.html``` and guess how parameters and widgets are interacting with Ableton Live. What exactly can be done will be documented soon.
 
