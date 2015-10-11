@@ -32,12 +32,13 @@ server.listen(port);
 
 var io = require('socket.io')(server);
 
+
 io.on('connection', function (socket) {
     socket.on('message', function (data) {
         midi.sendMidi([240, 247]);
         zmq.request(data).then(
             function (data) {
-                socket.emit('message', data);
+                socket.send(data);
             }
         );
     });
@@ -50,9 +51,12 @@ app.use('/', express.static(__dirname + "/.."));
 var ioevents = io.of("/events");
 var iomidi = io.of("/midi");
 
-iomidi.on('connection', function(socket) {
+iomidi.on('connection', function (socket) {
     socket.on('message', function (data) {
-        socket.emit("ack"); // this trick should prevent nagle's algorithm. Some serious profiling is needed to be sure http://stackoverflow.com/a/13406438/34871
+        socket.send("ack"); // this trick should prevent nagle's algorithm. Some serious profiling is needed to be sure http://stackoverflow.com/a/13406438/34871
+        if (!data.notes) { // tried to send filler packets to force flushing, so data.notes will be not present for them
+            return ;
+        }
         // split in chunks, as node-midi's buffer is limited
         for (var i = 0; i < data.notes.length; i += 100) {
             midi.sendMidi(data.notes.slice(i, i + 100), data.name);
@@ -64,15 +68,15 @@ iomidi.on('connection', function(socket) {
 midi.input.on('message', function (deltaTime, message, name) {
     if (!name) {
         debugmidi(deltaTime, message);
-        iomidi.emit('message', message);
+        iomidi.send(message);
     } else {
         debugmidi(deltaTime, message, name);
-        iomidi.emit('message', {notes: message, name: name});
+        iomidi.send({notes: message, name: name});
     }
 });
 
 zmq.subscriber.on('message', function (msg) {
-    ioevents.emit('message', msg.toString('utf8'));
+    ioevents.send(msg.toString('utf8'));
 });
 
 

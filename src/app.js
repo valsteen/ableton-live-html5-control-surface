@@ -20,7 +20,8 @@ export class App {
                 midiState.lastModifier = "midi:" + midiMessage.target.name;
             }
             if (!Midi.isLocal) {
-                iomidi.emit('message', {name: name, notes: Array.prototype.slice.call(midiMessage.data)});
+                iomidi.send({name: name, notes: Array.prototype.slice.call(midiMessage.data)});
+
             }
         });
 

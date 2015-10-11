@@ -82,7 +82,7 @@ class ChannelClass {
     }
 
     stopNotes() {
-        iomidi.emit('message', [175 + this.channel, 123, 0]);
+        iomidi.send([175 + this.channel, 123, 0]);
         for (var midiState of this.activeMidiStates.values()) {
             midiState.deactivate("channel");
         }
@@ -146,7 +146,7 @@ class MidiStateClass {
                 this.lastModifier = modifier;
             }
         }
-        iomidi.emit('message', this.midiMessage);
+        iomidi.send(this.midiMessage);
     }
 
     deactivate(modifier) {
@@ -162,15 +162,15 @@ class MidiStateClass {
                 this.lastModifier = modifier;
             }
         }
-        iomidi.emit('message', this.midiMessage);
+        iomidi.send(this.midiMessage);
     }
 
     pitchbend(value) {
-        iomidi.emit('message', [223 + this.channel, value[0], value[1]]);
+        iomidi.send([223 + this.channel, value[0], value[1]]);
     }
 
     aftertouch(value) {
-        iomidi.emit('message', [207 + this.channel, value, 0]);
+        iomidi.send([207 + this.channel, value, 0]);
     }
 
     get value() {

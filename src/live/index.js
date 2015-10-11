@@ -497,7 +497,7 @@ export function startBatch() {
 export function endBatch() {
     batch = false;
     if (currentBatch.length === 1) {
-        iorequest.emit("message", currentBatch[0]);
+        iorequest.send(currentBatch[0]);
     } else {
         request("BATCH", {'commands': currentBatch}).then((data) => {
             for (let i = 0; i < data.length; ++i) {
@@ -613,7 +613,7 @@ function request(method, data) {
     if (batch) {
         currentBatch.push(data);
     } else {
-        iorequest.emit('message', data);
+        iorequest.send(data);
     }
 
     return promise;
