@@ -20,7 +20,7 @@ I'm currently trying to isolate as much as I can so I can give accurate instruct
  * Install brew ( http://brew.sh/ ) then use it to install those dependencies with : ```brew install npm pkg-config zeromq coreutils```.
  * Next, checkout this project ( git clone https://github.com/valsteen/ableton-live-webapi ) anywhere.
  * Inside the checkout, install local dependencies with ```npm install```. Some other global dependencies are also necessary, run  ```npm install -g forever jspm```
- * npm installed the server dependencies. Now, type ```jspm install``` to fetch the frontend dependencies.
+ * npm installed the server dependencies. ```jspm``` now needs to download dependencies from github, but github limits anonymous downloads ; you need to register your user. Create a github account if you haven't one yet, then type ```jspm registry config github```. It will ask for your github username and a token you can generate here https://github.com/settings/tokens . Once it's done, type ```jspm install``` to fetch the frontend dependencies.
  * `gulp`, the build tool, is necessary at global level, install with ```npm install -g gulp```
  * finally, start the development server with ```gulp watch &  forever -w --watchDirectory=node_app/ node_app/server.js &```. It should end up with:
 
@@ -56,6 +56,8 @@ I dropped WebRTC which adds too much complexity and totally prevents the app to 
 checkout https://github.com/valsteen/ableton-live-webapi in ```/Applications/Ableton Live 9 Suite.app/Contents/App-Resources/MIDI Remote Scripts/``` and rename the directory WebAPI. 
 
 After restarting Live, a WebAPI control surface should be available, and since the server is running ( step 1 ), a WebAPI midi instrument should be available. Only "Track" on the input is necessary. Track can be set on the output as well. Once the script is active a logfile should appear at /tmp/abletonwebapi.log.
+
+Note: a symlink won't work.
 
 ## Web Client
 
