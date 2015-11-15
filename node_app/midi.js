@@ -37,11 +37,38 @@ var MidiManager = {
         this.virtualPorts = {};
 
         var output = new midi.output();
-        output.openVirtualPort("WebAPI");
+        var isWin = /^win/.test(process.platform);
+        
+        if (!isWin) {
+            output.openVirtualPort("WebAPI");
+        } else {
+            for (var i=0;i<output.getPortCount();++i) {
+                if (output.getPortName(i) === "WebAPI in") { // "in" is named from live's perspecive.
+                    output.openPort(i);
+                    break;
+                }
+                if (i >= output.getPortCount()) {
+                    throw "Please install loopmidi and name a device 'WebAPI in'";
+                }       
+            }
+        }
         this.output = output;
 
         var input = new midi.input();
-        input.openVirtualPort("WebAPI");
+        if (!isWin) {
+            input.openVirtualPort("WebAPI");
+        } else {
+            for (var i=0;i<input.getPortCount();++i) {
+                if (input.getPortName(i) === "WebAPI out") { // "out" is named from live's perspecive.
+                    input.openPort(i);
+                    break;
+                }
+                if (i >= input.getPortCount()) {
+                    throw "Please install loopmidi and name a device 'WebAPI out'";
+                }
+            }
+        }
+
         input.ignoreTypes(false, false, false);
         this.nodeinput = input;
 

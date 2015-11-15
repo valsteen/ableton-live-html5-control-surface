@@ -2,7 +2,7 @@ var debug = require('debug');
 var express = require('express');
 var bodyParser = require('body-parser');
 
-var zmq = require('./zmq');
+var live = require('./live');
 var midi = require("./midi");
 
 var debugmidi = debug("webmidi:midi");
@@ -33,6 +33,8 @@ server.listen(port);
 var io = require('socket.io')(server);
 
 
+var fillerInterval = 50 ;
+
 io.on('connection', function (socket) {
     var done = false;
     var fillerTimeout = null;
@@ -48,7 +50,7 @@ io.on('connection', function (socket) {
         if (!done) {
             socket.send("filler");
             if (Date.now() - socket.conn.lastMidi < 1000) {
-                fillerTimeout = setTimeout(sendFiller, 50);
+                fillerTimeout = setTimeout(sendFiller, fillerInterval);
             }
         }
     }
@@ -56,7 +58,7 @@ io.on('connection', function (socket) {
     socket.conn.startFiller = function () {
         socket.conn.lastMidi = Date.now();
         if (!fillerTimeout) {
-            fillerTimeout = setTimeout(sendFiller, 50);
+            fillerTimeout = setTimeout(sendFiller, fillerInterval);
         }
     };
 
@@ -65,18 +67,18 @@ io.on('connection', function (socket) {
             // we're already sending a packet, so cancel next filler
             if (fillerTimeout) {
                 clearTimeout(fillerTimeout);
-                fillerTimeout = setTimeout(sendFiller, 50);
+                fillerTimeout = setTimeout(sendFiller, fillerInterval);
             }
         }
     });
 
     socket.on('message', function (data) {
-        midi.sendMidi([240, 247]);
-        zmq.request(data).then(
+        live.request(data).then(
             function (data) {
                 socket.send(data);
             }
         );
+        midi.sendMidi([240, 247]);
     });
 });
 
@@ -119,9 +121,8 @@ midi.input.on('message', function (deltaTime, message, name) {
     }
 });
 
-zmq.subscriber.on('message', function (msg) {
+live.updateStream.on('data', function (msg) {
     ioevents.send(msg.toString('utf8'));
 });
-
 
 exports = module.exports = app;
